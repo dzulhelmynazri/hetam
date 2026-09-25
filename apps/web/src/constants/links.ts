@@ -5,10 +5,9 @@ const SOCIALS = {
 export const LINKS = {
   SOCIALS: SOCIALS,
   HOME: "/",
-  DASHBOARD: "/dashboard",
+  DASHBOARD: "/invoices",
   INVOICES: "/invoices",
   ANALYTICS: "/analytics",
-  BLOGS: "/blogs",
   ASSETS: "/assets",
   CREATE: {
     INVOICE: "/create/invoice",

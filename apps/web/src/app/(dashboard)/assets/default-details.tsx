@@ -34,10 +34,6 @@ const DefaultDetails = () => {
     return <p className="text-muted-foreground py-4 text-sm">Loading default details...</p>;
   }
 
-  if (!session?.user) {
-    return <p className="text-muted-foreground py-4 text-sm">Please log in to save and sync default details.</p>;
-  }
-
   const defaultValues: ZodDefaultDetailsSchema = data ?? defaultDetailsSchemaDefaultValues;
 
   return <DefaultDetailsForm defaultValues={defaultValues} />;

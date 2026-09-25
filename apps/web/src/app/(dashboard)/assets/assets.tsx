@@ -5,7 +5,6 @@ import { ImageSparkleIcon, SignatureIcon, TrashIcon, IdBadgeIcon } from "@/asset
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getImagesWithKey } from "@/lib/manage-assets/getImagesWithKey";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "@/constants/issues";
-import { LoginModal } from "@/components/layout/auth/login-modal";
 import EmptySection from "@/components/ui/icon-placeholder";
 import UploadSignatureAsset from "./upload-signature.asset";
 import { DefaultDetails } from "./default-details";
@@ -70,27 +69,7 @@ const AssetsPage = () => {
     }),
   );
 
-  if (!isSessionPending && !session?.user) {
-    return (
-      <div className="dash-page flex h-[calc(100svh-120px)] flex-col items-center justify-center gap-4 p-4 text-center">
-        <div className="flex max-w-sm flex-col items-center gap-2">
-          <h2 className="instrument-serif text-3xl font-semibold">Sign in to manage assets</h2>
-          <p className="text-muted-foreground text-sm">
-            Log in to manage your default company/client details, logos, and signatures stored in the cloud.
-          </p>
-          <LoginModal
-            trigger={
-              <Button className="mt-2" variant="default">
-                Login with Google
-              </Button>
-            }
-          />
-        </div>
-      </div>
-    );
-  }
-
-  if (images.isLoading) {
+  if (isSessionPending || images.isLoading) {
     return (
       <div className="flex h-full items-center justify-center p-8">
         <EmptySection

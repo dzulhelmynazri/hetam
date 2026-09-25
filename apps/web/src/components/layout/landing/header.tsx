@@ -2,6 +2,7 @@
 
 import ThemeSwitch from "@/components/table-columns/theme-switch";
 import { LoginModal } from "@/components/layout/auth/login-modal";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/lib/client-auth";
 import { CircleOpenArrowRight } from "@/icons";
@@ -13,6 +14,8 @@ import React from "react";
 const Header = () => {
   const isMounted = useMounted();
   const session = useSession();
+  const searchParams = useSearchParams();
+  const shouldOpenLogin = searchParams.get("login") === "true";
 
   return (
     <div className="flex h-16 shrink-0 items-center justify-between border-b border-dashed px-4">
@@ -30,6 +33,7 @@ const Header = () => {
           </Link>
         ) : (
           <LoginModal
+            defaultOpen={shouldOpenLogin}
             callbackURL={LINKS.DASHBOARD}
             trigger={
               <Button variant="secondary">

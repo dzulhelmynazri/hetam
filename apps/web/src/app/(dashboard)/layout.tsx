@@ -2,6 +2,9 @@ import DashboardSidebarHeader from "@/components/layout/sidebar/dashboard-sideba
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { generateWebsiteMetadata } from "@/constants/meta-data";
 import { DashboardSidebar } from "@/components/layout/sidebar";
+import { redirect } from "next/navigation";
+import { serverAuth } from "@/lib/auth";
+import { headers } from "next/headers";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = generateWebsiteMetadata({
@@ -13,6 +16,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await serverAuth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) {
+    redirect("/?login=true");
+  }
+
   return (
     <SidebarProvider>
       <DashboardSidebar />

@@ -18,11 +18,12 @@ interface LoginModalProps {
   children?: React.ReactNode;
   callbackURL?: string;
   trigger?: React.ReactNode;
+  defaultOpen?: boolean;
 }
 
-export function LoginModal({ children, callbackURL, trigger }: LoginModalProps) {
+export function LoginModal({ children, callbackURL, trigger, defaultOpen = false }: LoginModalProps) {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleLogin = () => {
