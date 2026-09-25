@@ -1,26 +1,29 @@
 "use client";
 
 import { createInvoiceSchemaDefaultValues } from "@/zod-schemas/invoice/create-invoice";
-import { getDefaultDetails } from "@/lib/indexdb-queries/defaultDetails";
 import { useNextInvoiceNumber } from "@/hooks/use-next-invoice-number";
 import PDFLoading from "@/components/layout/pdf/pdf-loading";
 import { SUCCESS_MESSAGES } from "@/constants/issues";
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "@/lib/client-auth";
+import { useTRPC } from "@/trpc/client";
 import InvoicePage from "./invoice";
 import React from "react";
 
 // Entry point for creating a fresh invoice. Computes the next invoice number
-// and pulls the user's saved default details (both from local stores), feeding
-// them as the form's defaults before mounting, so the shared InvoicePage stays
-// unaware of create-vs-edit. Editing existing invoices goes through EditInvoice.
+// and pulls the user's saved default details from the server, feeding
+// them as the form's defaults before mounting.
 const CreateInvoice = () => {
+  const trpc = useTRPC();
+  const { data: session } = useSession();
   const { nextInvoiceNumber, isLoading } = useNextInvoiceNumber();
+
   const { data: savedDetails, isPending: isDetailsLoading } = useQuery({
-    queryKey: ["idb-default-details"],
-    queryFn: getDefaultDetails,
+    ...trpc.user.getDefaultDetails.queryOptions(),
+    enabled: !!session?.user,
   });
 
-  if (isLoading || isDetailsLoading) {
+  if (isLoading || (session?.user && isDetailsLoading)) {
     return (
       <PDFLoading
         message={SUCCESS_MESSAGES.PREPARING_INVOICE}
@@ -35,8 +38,6 @@ const CreateInvoice = () => {
 
   const defaultInvoice = {
     ...createInvoiceSchemaDefaultValues,
-    // Empty saved fields fall back to the demo defaults (e.g. "Invoicely Ltd"),
-    // so an absent or blank profile behaves like the original create flow.
     companyDetails: {
       ...defaultCompany,
       name: savedCompany?.name || defaultCompany.name,

@@ -16,8 +16,7 @@
         "CF_R2_PUBLIC_DOMAIN",
         "CF_R2_ENDPOINT",
         "CF_R2_ACCESS_KEY_ID",
-        "CF_R2_SECRET_ACCESS_KEY",
-        "SENTRY_AUTH_TOKEN"
+        "CF_R2_SECRET_ACCESS_KEY"
       ]
     },
     "dev": {

@@ -36,11 +36,11 @@ export function FilterOperator<TData, TType extends ColumnDataType>({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="m-0 h-full w-fit rounded-none p-0 px-2 text-xs whitespace-nowrap">
+        <Button variant="ghost" className="m-0 h-full w-fit whitespace-nowrap rounded-none p-0 px-2 text-xs">
           <FilterOperatorDisplay filter={filter} columnType={column.type} locale={locale} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-fit origin-(--radix-popover-content-transform-origin) p-0">
+      <PopoverContent align="start" className="origin-(--radix-popover-content-transform-origin) w-fit p-0">
         <Command loop>
           <CommandInput placeholder={t("search", locale)} />
           <CommandEmpty>{t("noresults", locale)}</CommandEmpty>

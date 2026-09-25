@@ -5,7 +5,6 @@ import {
   defaultDetailsSchemaDefaultValues,
   ZodDefaultDetailsSchema,
 } from "@/zod-schemas/invoice/default-details";
-import { getDefaultDetails, saveDefaultDetails } from "@/lib/indexdb-queries/defaultDetails";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "@/constants/issues";
@@ -14,26 +13,32 @@ import { FormInput } from "@/components/ui/form/form-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form/form";
 import { Button } from "@/components/ui/button";
+import { useSession } from "@/lib/client-auth";
 import { Label } from "@/components/ui/label";
 import { TrashIcon } from "@/assets/icons";
+import { useTRPC } from "@/trpc/client";
 import { toast } from "sonner";
 import React from "react";
 
 const DefaultDetails = () => {
-  // Fetch the saved details first so the form mounts with the correct defaults
-  // (compute-before-mount instead of resetting via an effect).
+  const trpc = useTRPC();
+  const { data: session } = useSession();
+
+  // Fetch the saved details from server
   const { data, isPending } = useQuery({
-    queryKey: ["idb-default-details"],
-    queryFn: getDefaultDetails,
+    ...trpc.user.getDefaultDetails.queryOptions(),
+    enabled: !!session?.user,
   });
 
   if (isPending) {
     return <p className="text-muted-foreground py-4 text-sm">Loading default details...</p>;
   }
 
-  const defaultValues: ZodDefaultDetailsSchema = data
-    ? { companyDetails: data.companyDetails, clientDetails: data.clientDetails }
-    : defaultDetailsSchemaDefaultValues;
+  if (!session?.user) {
+    return <p className="text-muted-foreground py-4 text-sm">Please log in to save and sync default details.</p>;
+  }
+
+  const defaultValues: ZodDefaultDetailsSchema = data ?? defaultDetailsSchemaDefaultValues;
 
   return <DefaultDetailsForm defaultValues={defaultValues} />;
 };
@@ -41,6 +46,7 @@ const DefaultDetails = () => {
 export { DefaultDetails };
 
 const DefaultDetailsForm = ({ defaultValues }: { defaultValues: ZodDefaultDetailsSchema }) => {
+  const trpc = useTRPC();
   const queryClient = useQueryClient();
 
   const form = useForm<ZodDefaultDetailsSchema>({
@@ -48,18 +54,19 @@ const DefaultDetailsForm = ({ defaultValues }: { defaultValues: ZodDefaultDetail
     defaultValues,
   });
 
-  const saveMutation = useMutation({
-    mutationFn: (values: ZodDefaultDetailsSchema) => saveDefaultDetails(values),
-    onSuccess: () => {
-      toast.success(SUCCESS_MESSAGES.DEFAULT_DETAILS_SAVED, {
-        description: SUCCESS_MESSAGES.DEFAULT_DETAILS_SAVED_DESCRIPTION,
-      });
-      queryClient.invalidateQueries({ queryKey: ["idb-default-details"] });
-    },
-    onError: (error) => {
-      toast.error(ERROR_MESSAGES.TOAST_DEFAULT_TITLE, { description: error.message });
-    },
-  });
+  const saveMutation = useMutation(
+    trpc.user.saveDefaultDetails.mutationOptions({
+      onSuccess: () => {
+        toast.success(SUCCESS_MESSAGES.DEFAULT_DETAILS_SAVED, {
+          description: SUCCESS_MESSAGES.DEFAULT_DETAILS_SAVED_DESCRIPTION,
+        });
+        queryClient.invalidateQueries({ queryKey: trpc.user.getDefaultDetails.queryKey() });
+      },
+      onError: (error) => {
+        toast.error(ERROR_MESSAGES.TOAST_DEFAULT_TITLE, { description: error.message });
+      },
+    }),
+  );
 
   return (
     <Form {...form}>

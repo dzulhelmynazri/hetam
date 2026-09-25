@@ -1,9 +1,9 @@
 {
-  "name": "@invoicely/utilities",
+  "name": "@hetam/utilities",
   "private": true,
   "version": "1.0.0",
-  "description": "a package for utilities related to invocely project",
-  "repository": "https://github.com/legions-developer/invoicely",
+  "description": "a package for utilities related to hetam project",
+  "repository": "https://github.com/legions-developer/hetam",
   "author": "legions-developer",
   "license": "MIT",
   "exports": {
@@ -13,8 +13,8 @@
     }
   },
   "devDependencies": {
-    "@invoicely/eslint-config": "workspace:*",
-    "@invoicely/typescript-config": "workspace:*",
+    "@hetam/eslint-config": "workspace:*",
+    "@hetam/typescript-config": "workspace:*",
     "@turbo/gen": "^2.9.15",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
@@ -23,7 +23,9 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
+    "@t3-oss/env-nextjs": "^0.13.11",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zod": "^3.25.7"
   }
 }

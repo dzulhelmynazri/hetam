@@ -1,4 +1,4 @@
-import { invoiceTypeEnum } from "@invoicely/db/schema/invoice";
+import { invoiceTypeEnum } from "@hetam/db/schema/invoice";
 import { z } from "zod";
 
 export const EditInvoicePageSchema = z.object({

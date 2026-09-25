@@ -1,5 +1,5 @@
 const SOCIALS = {
-  GITHUB: "https://github.com/legions-developer/invoicely",
+  GITHUB: "https://github.com/legions-developer/hetam",
 };
 
 export const LINKS = {

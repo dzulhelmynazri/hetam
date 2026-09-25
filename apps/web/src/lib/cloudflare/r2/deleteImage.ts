@@ -1,5 +1,5 @@
 import { DeleteObjectCommand, type S3Client } from "@aws-sdk/client-s3";
-import { env } from "@invoicely/utilities";
+import { env } from "@hetam/utilities";
 
 export const deleteImage = async (s3: S3Client, key: string) => {
   const deleteImageResult = await s3.send(

@@ -11,7 +11,6 @@ import { FormColorPicker } from "@/components/ui/form/form-color-picker";
 import InvoiceItemsSection from "./invoiceHelpers/invoice-items-section";
 import { FormDatePicker } from "@/components/ui/form/form-date-picker";
 import { InvoiceFontSelector } from "./invoiceHelpers/invoice-fonts";
-import { getAllImages } from "@/lib/indexdb-queries/getAllImages";
 import { FormTextarea } from "@/components/ui/form/form-textarea";
 import { FormSelect } from "@/components/ui/form/form-select";
 import { currenciesWithSymbols } from "@/constants/currency";
@@ -38,11 +37,6 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ form }) => {
 
   const { data: session } = useSession();
 
-  // fetching images from indexedDB
-  const idbImages = useQuery({
-    queryKey: ["idb-images"],
-    queryFn: () => getAllImages(),
-  });
   // Fetching Server Images
   const serverImages = useQuery({
     ...trpc.cloudflare.listImages.queryOptions(),
@@ -68,15 +62,11 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ form }) => {
                 <div className={cn(container.width > 1200 ? "w-fit" : "w-full [&>*]:w-full", "flex flex-row gap-4")}>
                   <InvoiceImageSelectorSheet
                     type="logo"
-                    isLoading={idbImages.isLoading || serverImages.isLoading}
-                    idbImages={idbImages.data || []}
+                    isLoading={serverImages.isLoading}
                     serverImages={serverImages.data?.images || []}
                     user={session?.user}
                     onUrlChange={(url) => {
                       form.setValue("companyDetails.logo", url);
-                    }}
-                    onBase64Change={(base64) => {
-                      form.setValue("companyDetails.logoBase64", base64);
                     }}
                   >
                     <SheetImageSelectorTrigger
@@ -91,15 +81,11 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ form }) => {
                   </InvoiceImageSelectorSheet>
                   <InvoiceImageSelectorSheet
                     type="signature"
-                    isLoading={idbImages.isLoading || serverImages.isLoading}
-                    idbImages={idbImages.data || []}
+                    isLoading={serverImages.isLoading}
                     serverImages={serverImages.data?.images || []}
                     user={session?.user}
                     onUrlChange={(url) => {
                       form.setValue("companyDetails.signature", url);
-                    }}
-                    onBase64Change={(base64) => {
-                      form.setValue("companyDetails.signatureBase64", base64);
                     }}
                   >
                     <SheetImageSelectorTrigger

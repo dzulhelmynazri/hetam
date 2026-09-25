@@ -1,13 +1,11 @@
 import {
   BoxIcon,
   CalendarCheckIcon,
-  DatabaseIcon,
   FileAlertIcon,
   FileBanIcon,
   FileCheckIcon,
   FilePenIcon,
   FileRefreshIcon,
-  HardDriveIcon,
   HourglassStartIcon,
   IdBadgeIcon,
   PriorityMediumIcon,
@@ -23,14 +21,13 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { createColumnConfigHelper } from "@/components/ui/data-table-filter/core/filters";
 import { HeaderColumnButton, FormatTableDateObject } from "@/components/ui/data-table";
-import type { InvoiceStatusType } from "@invoicely/db/schema/invoice";
+import type { InvoiceStatusType } from "@hetam/db/schema/invoice";
 import { Badge, BadgeVariants } from "@/components/ui/badge";
 import { createColumnHelper } from "@tanstack/react-table";
 import { getTotalValue } from "@/constants/pdf-helpers";
 import getSymbolFromCurrency from "currency-symbol-map";
 import DeleteInvoiceModal from "./deleteInvoiceModal";
 import UpdateStatusModal from "./updateStatusModal";
-import MigrateToDbModal from "./migrateToDbModal";
 import { Invoice } from "@/types/common/invoice";
 import { CalendarPenIcon } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
@@ -40,18 +37,6 @@ const columnHelper = createColumnHelper<Invoice>();
 const columnConfigHelper = createColumnConfigHelper<Invoice>();
 
 export const columns = [
-  columnHelper.accessor((row) => row.type, {
-    id: "type",
-    header: ({ column }) => <HeaderColumnButton column={column}>Storage</HeaderColumnButton>,
-    cell: ({ row }) => (
-      <Badge variant={row.original.type === "local" ? "default" : "rose"} icon>
-        {row.original.type === "local" ? <HardDriveIcon /> : <DatabaseIcon />}
-        {row.original.type === "local" ? "Local" : "Server"}
-      </Badge>
-    ),
-    enableSorting: false,
-  }),
-
   columnHelper.accessor((row) => row.id, {
     id: "id",
     header: ({ column }) => <HeaderColumnButton column={column}>ID</HeaderColumnButton>,
@@ -135,7 +120,7 @@ export const columns = [
     id: "actions",
     header: ({ column }) => <HeaderColumnButton column={column}>Actions</HeaderColumnButton>,
     cell: ({ row }) => {
-      const { id, type, status, paidAt, invoiceFields } = row.original;
+      const { id, status } = row.original;
 
       return (
         <div key={id} className="flex flex-row items-center gap-2">
@@ -146,17 +131,14 @@ export const columns = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <UpdateStatusModal invoiceId={id} type={type} currentStatus={status} />
-              <Link href={`/edit/${type}/${id}`}>
+              <UpdateStatusModal invoiceId={id} currentStatus={status} />
+              <Link href={`/edit/server/${id}`}>
                 <DropdownMenuItem>
                   <FilePenIcon />
                   <span>Edit</span>
                 </DropdownMenuItem>
               </Link>
-              {type === "local" && (
-                <MigrateToDbModal invoiceId={id} invoiceFields={invoiceFields} status={status} paidAt={paidAt} />
-              )}
-              <DeleteInvoiceModal invoiceId={id} type={type} />
+              <DeleteInvoiceModal invoiceId={id} />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -228,18 +210,6 @@ export const importInvoiceColumns = [
 ];
 
 export const columnConfig = [
-  // Storage
-  columnConfigHelper
-    .option()
-    .id("type")
-    .displayName("Storage")
-    .accessor((row) => row.type)
-    .icon(DatabaseIcon)
-    .options([
-      { label: "", value: "local", icon: <Badge variant="default">Local</Badge> },
-      { label: "", value: "server", icon: <Badge variant="rose">Server</Badge> },
-    ])
-    .build(),
   // Id
   columnConfigHelper
     .text()
@@ -298,18 +268,6 @@ export const columnConfig = [
 ];
 
 export const importInvoiceColumnConfig = [
-  // Storage
-  columnConfigHelper
-    .option()
-    .id("type")
-    .displayName("Storage")
-    .accessor((row) => row.type)
-    .icon(DatabaseIcon)
-    .options([
-      { label: "", value: "local", icon: <Badge variant="default">Local</Badge> },
-      { label: "", value: "server", icon: <Badge variant="rose">Server</Badge> },
-    ])
-    .build(),
   // Id
   columnConfigHelper
     .text()

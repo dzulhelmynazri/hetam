@@ -83,7 +83,7 @@ export default function ImageInput({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           data-dragging={isDragging || undefined}
-          className="border-input hover:bg-accent/50 data-[dragging=true]:bg-accent/50 relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-md border border-dashed p-4 transition-colors has-disabled:pointer-events-none has-disabled:opacity-50 has-[img]:border-none"
+          className="border-input hover:bg-accent/50 data-[dragging=true]:bg-accent/50 has-disabled:pointer-events-none has-disabled:opacity-50 relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-md border border-dashed p-4 transition-colors has-[img]:border-none"
         >
           <input {...getInputProps()} className="sr-only" aria-label="Upload file" />
           {previewUrl && allowPreview && !isLoading ? (
@@ -118,10 +118,10 @@ export default function ImageInput({
           )}
         </div>
         {previewUrl && allowPreview && !isLoading && (
-          <div className="absolute top-4 right-4">
+          <div className="absolute right-4 top-4">
             <button
               type="button"
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-5 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-5 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white outline-none transition-[color,box-shadow] hover:bg-black/80 focus-visible:ring-[3px]"
               onClick={() => {
                 removeFile(files[0]?.id);
                 if (onFileRemove) {

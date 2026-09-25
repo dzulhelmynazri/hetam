@@ -73,7 +73,7 @@ export function ActiveFilter<TData, TType extends ColumnDataType>({
   locale = "en",
 }: ActiveFilterProps<TData, TType>) {
   return (
-    <div className="border-border bg-background flex h-7 items-center rounded-2xl border text-xs shadow-xs">
+    <div className="border-border bg-background shadow-xs flex h-7 items-center rounded-2xl border text-xs">
       <FilterSubject column={column} />
       <Separator orientation="vertical" />
       <FilterOperator filter={filter} column={column} actions={actions} locale={locale} />
@@ -139,7 +139,7 @@ export function ActiveFiltersMobileContainer({ children }: { children: React.Rea
     <div className="relative w-full overflow-x-hidden">
       {/* Left blur effect */}
       {showLeftBlur && (
-        <div className="from-background animate-in fade-in-0 pointer-events-none absolute top-0 bottom-0 left-0 z-10 w-16 bg-gradient-to-r to-transparent" />
+        <div className="from-background animate-in fade-in-0 pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-16 bg-gradient-to-r to-transparent" />
       )}
 
       {/* Scrollable container */}
@@ -149,7 +149,7 @@ export function ActiveFiltersMobileContainer({ children }: { children: React.Rea
 
       {/* Right blur effect */}
       {showRightBlur && (
-        <div className="from-background animate-in fade-in-0 pointer-events-none absolute top-0 right-0 bottom-0 z-10 w-16 bg-gradient-to-l to-transparent" />
+        <div className="from-background animate-in fade-in-0 pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-16 bg-gradient-to-l to-transparent" />
       )}
     </div>
   );

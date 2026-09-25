@@ -18,7 +18,7 @@ const DashboardSidebarHeader = ({ children }: ISidebarHeader) => {
     .find((item) => item.url === pathname);
 
   return (
-    <header className="bg-background sticky top-0 flex h-12 shrink-0 items-center justify-between gap-2 border-b transition-[width,height] ease-linear select-none group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+    <header className="bg-background sticky top-0 flex h-12 shrink-0 select-none items-center justify-between gap-2 border-b transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
       <div className="flex items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
         {route ? <Separator orientation="vertical" className="mr-2 min-h-4" /> : null}

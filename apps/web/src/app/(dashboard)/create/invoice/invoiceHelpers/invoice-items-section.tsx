@@ -98,7 +98,7 @@ const InvoiceItemsSection: React.FC<InvoiceItemsSectionProps> = ({ form }) => {
                     </Button>
                   </div>
                   <div className="flex flex-row items-center gap-1">
-                    <p className="space-x-1 text-[10px] whitespace-nowrap">
+                    <p className="space-x-1 whitespace-nowrap text-[10px]">
                       <span>Total:</span>
                       <span>
                         {formatCurrencyText(form.watch("invoiceDetails.currency"), field.unitPrice * field.quantity)}

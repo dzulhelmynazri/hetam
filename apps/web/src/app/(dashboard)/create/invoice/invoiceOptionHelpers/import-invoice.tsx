@@ -15,7 +15,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { importInvoiceColumnConfig, importInvoiceColumns } from "@/components/table-columns/invoices";
-import { getAllInvoices } from "@/lib/indexdb-queries/invoice";
 import { DataTable } from "@/components/ui/data-table";
 import { InboxArrowDownIcon } from "@/assets/icons";
 import { Invoice } from "@/types/common/invoice";
@@ -32,35 +31,13 @@ const ImportInvoice = ({ form }: { form: UseFormReturn<ZodCreateInvoiceSchema> }
   // Fetching Invoices from the Postgres (Server)
   const trpcData = useQuery({
     ...trpc.invoice.list.queryOptions(),
-    enabled: !!session?.user, // Only fetch if user is logged in
+    enabled: !!session?.user,
   });
 
-  // Fetching Invoices from the LocalDB
-  const idbData = useQuery({
-    queryKey: ["idb-invoices"],
-    queryFn: getAllInvoices,
-  });
-
-  const isLoading = trpcData.isLoading || idbData.isLoading;
-
-  // Combine and ensure data is an array
-  const data = [...(trpcData.data ?? []), ...(idbData.data ?? [])];
+  const isLoading = trpcData.isLoading;
+  const data = trpcData.data ?? [];
 
   const handleRowClick = (invoice: Invoice) => {
-    if (invoice.type === "local") {
-      // we need to convert image url and sig url to local base64
-      const invoiceFields = invoice.invoiceFields;
-      const imageBase64 = invoiceFields.companyDetails.logoBase64;
-      const sigBase64 = invoiceFields.companyDetails.signatureBase64;
-
-      if (!invoiceFields.companyDetails.logo?.startsWith("https://")) {
-        invoiceFields.companyDetails.logo = imageBase64;
-      }
-      if (!invoiceFields.companyDetails.signature?.startsWith("https://")) {
-        invoiceFields.companyDetails.signature = sigBase64;
-      }
-    }
-
     // Reset form field to imported invoice
     form.reset(invoice.invoiceFields);
     setOpen(false);
@@ -69,30 +46,34 @@ const ImportInvoice = ({ form }: { form: UseFormReturn<ZodCreateInvoiceSchema> }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <InboxArrowDownIcon className="text-muted-foreground" />
-          <span>Import</span>
+        <Button variant="secondary">
+          <InboxArrowDownIcon />
+          <span>Import Invoice</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-full">
+      <DialogContent className="min-w-fit" hideCloseButton>
         <DialogHeaderContainer>
-          <DialogIcon>
-            <InboxArrowDownIcon />
-          </DialogIcon>
           <DialogHeader>
+            <DialogIcon>
+              <InboxArrowDownIcon />
+            </DialogIcon>
             <DialogTitle>Import Invoice</DialogTitle>
-            <DialogDescription>Click on an invoice to import the data</DialogDescription>
+            <DialogDescription>
+              Select an invoice from your account to pre-fill the form with its details.
+            </DialogDescription>
           </DialogHeader>
         </DialogHeaderContainer>
         <DialogContentContainer>
-          <DataTable
-            isLoading={isLoading}
-            data={data}
-            columns={importInvoiceColumns}
-            columnConfig={importInvoiceColumnConfig}
-            defaultSorting={[{ id: "createdAt", desc: true }]}
-            onRowClick={handleRowClick}
-          />
+          <div className="flex flex-col gap-4">
+            <DataTable
+              onRowClick={handleRowClick}
+              isLoading={isLoading}
+              data={data}
+              columns={importInvoiceColumns}
+              columnConfig={importInvoiceColumnConfig}
+              defaultSorting={[{ id: "createdAt", desc: true }]}
+            />
+          </div>
         </DialogContentContainer>
       </DialogContent>
     </Dialog>

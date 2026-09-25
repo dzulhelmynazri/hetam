@@ -1,7 +1,7 @@
 import { ZodCreateInvoiceSchema } from "@/zod-schemas/invoice/create-invoice";
-import type { InvoiceStatusType } from "@invoicely/db/schema/invoice";
+import type { InvoiceStatusType } from "@hetam/db/schema/invoice";
 import { ERROR_MESSAGES } from "@/constants/issues";
-import { db, schema } from "@invoicely/db";
+import { db, schema } from "@hetam/db";
 import { v4 as uuidv4 } from "uuid";
 import Decimal from "decimal.js";
 

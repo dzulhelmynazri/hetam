@@ -19,7 +19,7 @@
 <div class="mx-auto max-w-sm overflow-hidden rounded-xl bg-white shadow-lg sm:flex sm:max-w-2xl">
   <img class="h-48 w-full object-cover sm:h-auto sm:w-48" src="profile.jpg" alt="Profile" />
   <div class="p-8">
-    <div class="text-sm font-semibold tracking-wide text-indigo-500 uppercase">Product Engineer</div>
+    <div class="text-sm font-semibold uppercase tracking-wide text-indigo-500">Product Engineer</div>
     <h2 class="mt-1 text-xl font-semibold text-gray-900">John Doe</h2>
     <p class="mt-2 text-gray-500">Building amazing products with modern technology.</p>
     <button class="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-white transition hover:bg-indigo-700">Contact</button>
@@ -90,7 +90,7 @@
 ## Modal/Dialog
 
 ```html
-<div class="bg-opacity-50 fixed inset-0 flex items-center justify-center bg-black p-4">
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
   <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
     <div class="mb-4 flex items-center justify-between">
       <h3 class="text-xl font-bold">Modal Title</h3>

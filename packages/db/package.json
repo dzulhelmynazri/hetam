@@ -1,5 +1,5 @@
 {
-  "name": "@invoicely/db",
+  "name": "@hetam/db",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -14,9 +14,9 @@
     "db:studio": "drizzle-kit studio"
   },
   "devDependencies": {
-    "@invoicely/eslint-config": "workspace:*",
-    "@invoicely/typescript-config": "workspace:*",
-    "@invoicely/utilities": "workspace:*",
+    "@hetam/eslint-config": "workspace:*",
+    "@hetam/typescript-config": "workspace:*",
+    "@hetam/utilities": "workspace:*",
     "@types/node": "22.13.8",
     "dotenv": "16.4.7",
     "drizzle-kit": "0.31.10",

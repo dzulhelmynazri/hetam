@@ -67,8 +67,8 @@
 </div>
 
 <!-- Notification badge -->
-<span class="absolute -top-1 -right-1 h-3 w-3 animate-ping rounded-full bg-red-400 opacity-75"></span>
-<span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500"></span>
+<span class="absolute -right-1 -top-1 h-3 w-3 animate-ping rounded-full bg-red-400 opacity-75"></span>
+<span class="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-red-500"></span>
 ```
 
 ---

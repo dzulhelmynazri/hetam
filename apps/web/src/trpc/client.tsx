@@ -7,7 +7,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { superjsonTransformer } from "./transformer";
 import { makeQueryClient } from "./query-client";
 import type { AppRouter } from "./routers/_app";
-import { env } from "@invoicely/utilities";
+import { env } from "@hetam/utilities";
 import { useState } from "react";
 
 let clientQueryClientSingleton: QueryClient;

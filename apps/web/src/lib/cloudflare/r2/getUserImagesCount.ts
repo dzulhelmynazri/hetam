@@ -1,5 +1,5 @@
 import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
-import { env } from "@invoicely/utilities";
+import { env } from "@hetam/utilities";
 
 export const getUserImagesCount = async (s3: S3Client, userId: string) => {
   const listObjectsV2Command = new ListObjectsV2Command({

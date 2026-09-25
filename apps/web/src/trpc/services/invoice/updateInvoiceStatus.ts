@@ -2,9 +2,9 @@ import { BadRequestError, InternalServerError, NotFoundError } from "@/lib/effec
 import { authorizedProcedure } from "@/trpc/procedures/authorizedProcedure";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "@/constants/issues";
 import { parseCatchError } from "@/lib/neverthrow/parseCatchError";
-import { invoiceStatusEnum } from "@invoicely/db/schema/invoice";
-import { db, schema } from "@invoicely/db";
+import { invoiceStatusEnum } from "@hetam/db/schema/invoice";
 import { TRPCError } from "@trpc/server";
+import { db, schema } from "@hetam/db";
 import { and, eq } from "drizzle-orm";
 import { Effect } from "effect";
 import { z } from "zod";

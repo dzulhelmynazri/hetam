@@ -56,14 +56,14 @@ function __FilterValue<TData, TType extends ColumnDataType>({
     <Popover>
       <PopoverAnchor className="h-full" />
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="m-0 h-full w-fit rounded-none p-0 px-2 text-xs whitespace-nowrap">
+        <Button variant="ghost" className="m-0 h-full w-fit whitespace-nowrap rounded-none p-0 px-2 text-xs">
           <FilterValueDisplay filter={filter} column={column} actions={actions} locale={locale} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
         align="start"
         side="bottom"
-        className="w-fit origin-(--radix-popover-content-transform-origin) p-0"
+        className="origin-(--radix-popover-content-transform-origin) w-fit p-0"
       >
         <FilterValueController filter={filter} column={column} actions={actions} strategy={strategy} locale={locale} />
       </PopoverContent>
@@ -264,14 +264,14 @@ export function FilterValueNumberDisplay<TData>({ filter, locale = "en" }: Filte
     const maxValue = filter.values[1];
 
     return (
-      <span className="tracking-tight tabular-nums">
+      <span className="tabular-nums tracking-tight">
         {minValue} {t("and", locale)} {maxValue}
       </span>
     );
   }
 
   const value = filter.values[0];
-  return <span className="tracking-tight tabular-nums">{value}</span>;
+  return <span className="tabular-nums tracking-tight">{value}</span>;
 }
 
 /****** Property Filter Value Controller ******/
@@ -366,7 +366,7 @@ const OptionItem = memo(function OptionItem({ option, onToggle }: OptionItemProp
       <div className="flex w-full items-center gap-1.5">
         <Checkbox
           checked={selected}
-          className="mr-1 opacity-20 group-data-[selected=true]:opacity-100 data-[state=checked]:opacity-100"
+          className="mr-1 opacity-20 data-[state=checked]:opacity-100 group-data-[selected=true]:opacity-100"
         />
         {Icon && (isValidElement(Icon) ? Icon : <Icon className="text-primary size-4" />)}
         <div className="flex w-full flex-row justify-between">
@@ -374,7 +374,7 @@ const OptionItem = memo(function OptionItem({ option, onToggle }: OptionItemProp
           <span
             className={cn(
               count == null && "hidden",
-              "text-muted-foreground/40 ml-0.5 text-[10px] tracking-tight tabular-nums",
+              "text-muted-foreground/40 ml-0.5 text-[10px] tabular-nums tracking-tight",
               count === 0 && "slashed-zero",
             )}
           >

@@ -17,7 +17,6 @@ import { cloneDeep, debounce, isEqual } from "lodash";
 import { ERROR_MESSAGES } from "@/constants/issues";
 import { UseFormReturn } from "react-hook-form";
 import { Document, Page } from "react-pdf";
-import * as Sentry from "@sentry/nextjs";
 import { useSetAtom } from "jotai";
 
 const PDF_VIEWER_PADDING = 18;
@@ -50,10 +49,6 @@ const PDFViewer = ({ url, width }: { url: string | null; width: number }) => {
         }}
         onLoadError={(error) => {
           console.error("[ERROR]: Error loading PDF:", error);
-          // Send the error to Sentry
-          Sentry.captureException(error, {
-            level: "debug",
-          });
           setError(error);
 
           // retry converting the pdf to blob
@@ -130,10 +125,6 @@ const InvoicePreview = ({ form }: { form: UseFormReturn<ZodCreateInvoiceSchema> 
         setGeneratedPdfUrl(newUrl);
       } catch (err) {
         setPdfError(parseCatchError(err, ERROR_MESSAGES.FAILED_TO_GENERATE_PDF));
-        // Send the error to Sentry
-        Sentry.captureException(err, {
-          level: "debug",
-        });
         if (generatedPdfUrl) {
           revokeBlobUrl({ url: generatedPdfUrl });
         }

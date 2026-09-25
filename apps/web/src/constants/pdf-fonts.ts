@@ -1,4 +1,9 @@
-import type { FontSource$1 as PdfFont } from "@react-pdf/font";
+export type PdfFont = {
+  src: string;
+  fontStyle?: "normal" | "italic";
+  fontWeight?:
+    number | "thin" | "ultralight" | "light" | "normal" | "medium" | "semibold" | "bold" | "ultrabold" | "heavy";
+};
 
 export const INTER_FONT: PdfFont[] = [
   {

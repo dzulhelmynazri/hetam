@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
 
@@ -6,32 +5,19 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
 
   const searchParamtitle = searchParams.get("title");
-  const searchParamslink = searchParams.get("link");
 
-  const title = searchParamtitle ? searchParamtitle.slice(0, 100) : "Create Beautiful Invoices";
-  const link = searchParamslink ? searchParamslink : "invoicely.gg";
+  const title = searchParamtitle ? searchParamtitle.slice(0, 100) : "Welcome to hetam's Family <3";
 
   try {
     return new ImageResponse(
-      (
-        <div tw="flex flex-col items-center justify-center h-full">
-          {/* Background Image */}
-          <img src="https://assets.invoicely.gg/blog-banner.png" alt="Invoicely" width={1200} height={630} />
-          {/* Image Content */}
-          <h1
-            style={{ fontFamily: "Instrument Serif" }}
-            tw="text-7xl font-medium leading-none max-w-[900px] absolute top-[300px] left-[94px] text-white"
-          >
-            {title}
-          </h1>
-          <p
-            style={{ fontFamily: "JetBrains Mono" }}
-            tw="text-lg text-zinc-400 max-w-[800px] absolute top-[68px] left-[94px] text-[#1B1B1C]"
-          >
-            /blogs/{link}
-          </p>
-        </div>
-      ),
+      <div tw="flex flex-col items-center justify-center h-full">
+        <h1
+          style={{ fontFamily: "Instrument Serif" }}
+          tw="text-7xl font-medium leading-none max-w-[900px] absolute top-[300px] left-[94px] text-white"
+        >
+          {title}
+        </h1>
+      </div>,
       {
         fonts: [
           {

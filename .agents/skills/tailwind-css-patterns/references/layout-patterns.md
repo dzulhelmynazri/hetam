@@ -111,7 +111,7 @@ Uniform spacing:
 Individual sides:
 
 ```html
-<div class="pt-4 pr-8 pb-4 pl-8">
+<div class="pb-4 pl-8 pr-8 pt-4">
   <!-- Top 1rem, Right 2rem, Bottom 1rem, Left 2rem -->
 </div>
 ```
@@ -196,7 +196,7 @@ Responsive typography:
 ### Opacity
 
 ```html
-<div class="bg-opacity-50 bg-blue-500">Semi-transparent blue</div>
+<div class="bg-blue-500 bg-opacity-50">Semi-transparent blue</div>
 ```
 
 ---

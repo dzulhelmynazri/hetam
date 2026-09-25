@@ -193,7 +193,7 @@ export function HeaderColumnButton<TData>({
     <button
       className={cn(
         disableChevron && "pr-0",
-        "text-secondary-foreground -mx-2 my-auto inline-flex h-fit cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium whitespace-nowrap select-none",
+        "text-secondary-foreground -mx-2 my-auto inline-flex h-fit cursor-pointer select-none items-center gap-2 whitespace-nowrap rounded-md px-2 py-1.5 text-xs font-medium",
       )}
       onClick={() => column.toggleSorting(isSorted === "asc")}
     >
@@ -209,7 +209,7 @@ export function HeaderColumnButton<TData>({
 
 export const FormatTableDate = ({ date }: { date: number }) => {
   return (
-    <div className="text-muted-foreground text-xs whitespace-nowrap">
+    <div className="text-muted-foreground whitespace-nowrap text-xs">
       {format(new Date(date * 1000), "dd/MM/yyyy - hh:mm a")}
     </div>
   );
@@ -217,7 +217,7 @@ export const FormatTableDate = ({ date }: { date: number }) => {
 
 export const FormatTableDateString = ({ date }: { date: string }) => {
   return (
-    <div className="text-muted-foreground text-xs whitespace-nowrap">
+    <div className="text-muted-foreground whitespace-nowrap text-xs">
       {format(new Date(date), "dd/MM/yyyy - hh:mm a")}
     </div>
   );
@@ -226,5 +226,5 @@ export const FormatTableDateString = ({ date }: { date: string }) => {
 export const FormatTableDateObject = ({ date }: { date: Date | null }) => {
   if (!date) return null;
 
-  return <div className="text-muted-foreground text-xs whitespace-nowrap">{format(date, "dd/MM/yyyy - hh:mm a")}</div>;
+  return <div className="text-muted-foreground whitespace-nowrap text-xs">{format(date, "dd/MM/yyyy - hh:mm a")}</div>;
 };

@@ -1,6 +1,6 @@
 import { S3Client } from "@aws-sdk/client-s3";
-import { env } from "@invoicely/utilities";
 import { middleware } from "@/trpc/init";
+import { env } from "@hetam/utilities";
 
 export const awsS3Middleware = middleware(async function awsS3Middleware(options) {
   const s3 = new S3Client({

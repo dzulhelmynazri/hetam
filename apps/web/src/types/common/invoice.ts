@@ -1,4 +1,4 @@
-import type { InvoiceStatusType, InvoiceTypeType } from "@invoicely/db/schema/invoice";
+import type { InvoiceStatusType, InvoiceTypeType } from "@hetam/db/schema/invoice";
 import { ZodCreateInvoiceSchema } from "@/zod-schemas/invoice/create-invoice";
 
 export interface Invoice {

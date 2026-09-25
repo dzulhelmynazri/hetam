@@ -152,7 +152,7 @@ export default function SignatureInputModal({
     <>
       <div className="relative">
         {/* Drop area */}
-        <div className="border-input relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-md border border-dashed transition-colors has-disabled:pointer-events-none has-disabled:opacity-50 has-[img]:border-none">
+        <div className="border-input has-disabled:pointer-events-none has-disabled:opacity-50 relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-md border border-dashed transition-colors has-[img]:border-none">
           {previewUrl && allowPreview && !isLoading ? (
             <div className="absolute inset-0">
               <img src={previewUrl} alt="user signature" className="size-full object-cover" />
@@ -221,10 +221,10 @@ export default function SignatureInputModal({
           )}
         </div>
         {previewUrl && allowPreview && !isLoading && (
-          <div className="absolute top-4 right-4">
+          <div className="absolute right-4 top-4">
             <button
               type="button"
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-5 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-5 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white outline-none transition-[color,box-shadow] hover:bg-black/80 focus-visible:ring-[3px]"
               onClick={(e) => {
                 e.preventDefault();
 

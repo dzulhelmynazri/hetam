@@ -200,26 +200,14 @@ export type NumberFilterOperator =
 
 /* Operators for date data */
 export type DateFilterOperator =
-  | "is"
-  | "is not"
-  | "is before"
-  | "is on or after"
-  | "is after"
-  | "is on or before"
-  | "is between"
-  | "is not between";
+  "is" | "is not" | "is before" | "is on or after" | "is after" | "is on or before" | "is between" | "is not between";
 
 /* Operators for option data */
 export type OptionFilterOperator = "is" | "is not" | "is any of" | "is none of";
 
 /* Operators for multi-option data */
 export type MultiOptionFilterOperator =
-  | "include"
-  | "exclude"
-  | "include any of"
-  | "include all of"
-  | "exclude if any of"
-  | "exclude if all";
+  "include" | "exclude" | "include any of" | "include all of" | "exclude if any of" | "exclude if all";
 
 /* Maps filter operators to their respective data types */
 export type FilterOperators = {

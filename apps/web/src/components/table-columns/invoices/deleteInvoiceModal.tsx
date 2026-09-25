@@ -14,11 +14,10 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { deleteInvoiceFromIDB } from "@/lib/indexdb-queries/deleteInvoice"; // New import
-import type { InvoiceTypeType } from "@invoicely/db/schema/invoice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { parseCatchError } from "@/lib/neverthrow/parseCatchError";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import type { InvoiceTypeType } from "@hetam/db/schema/invoice";
 import { FormButton } from "@/components/ui/form/form-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form/form";
@@ -33,7 +32,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 interface DeleteInvoiceModalProps {
-  type: InvoiceTypeType;
+  type?: InvoiceTypeType;
   invoiceId: string;
 }
 
@@ -43,7 +42,7 @@ const deleteInvoiceSchema = z.object({
 
 type DeleteInvoiceSchema = z.infer<typeof deleteInvoiceSchema>;
 
-const DeleteInvoiceModal = ({ invoiceId, type }: DeleteInvoiceModalProps) => {
+const DeleteInvoiceModal = ({ invoiceId }: DeleteInvoiceModalProps) => {
   const [open, setOpen] = useState(false);
   const trpc = useTRPC();
   const queryClient = useQueryClient();
@@ -65,24 +64,6 @@ const DeleteInvoiceModal = ({ invoiceId, type }: DeleteInvoiceModalProps) => {
     }),
   );
 
-  // IDB Mutation
-  const deleteIDBInvoiceMutation = useMutation({
-    mutationFn: async (data: DeleteInvoiceSchema) => {
-      await deleteInvoiceFromIDB(data.id);
-    },
-    onSuccess: () => {
-      toast.success("Invoice deleted successfully!", {
-        description: "The invoice has been deleted from local storage.",
-      });
-      queryClient.invalidateQueries({ queryKey: ["idb-invoices"] });
-    },
-    onError: (error) => {
-      toast.error("Failed to delete invoice!", {
-        description: parseCatchError(error),
-      });
-    },
-  });
-
   const form = useForm<DeleteInvoiceSchema>({
     resolver: zodResolver(deleteInvoiceSchema),
     defaultValues: {
@@ -91,15 +72,9 @@ const DeleteInvoiceModal = ({ invoiceId, type }: DeleteInvoiceModalProps) => {
   });
 
   const onSubmit = async () => {
-    if (type === "server") {
-      await deleteServerInvoiceMutation.mutateAsync({
-        id: invoiceId,
-      });
-    } else {
-      await deleteIDBInvoiceMutation.mutateAsync({
-        id: invoiceId,
-      });
-    }
+    await deleteServerInvoiceMutation.mutateAsync({
+      id: invoiceId,
+    });
     setOpen(false);
   };
 
@@ -108,39 +83,43 @@ const DeleteInvoiceModal = ({ invoiceId, type }: DeleteInvoiceModalProps) => {
       <DialogTrigger asChild>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           <TrashIcon />
-          <span>Delete Invoice</span>
+          <span>Delete</span>
         </DropdownMenuItem>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent hideCloseButton>
+        <DialogHeaderContainer>
+          <DialogHeader>
+            <DialogIcon>
+              <TrashIcon />
+            </DialogIcon>
+            <DialogTitle>Delete Invoice</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this invoice? This will permanently delete the invoice from the server.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogHeaderContainer>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogHeaderContainer>
-              <DialogIcon>
-                <TrashIcon />
-              </DialogIcon>
-              <DialogHeader>
-                <DialogTitle>Delete Invoice</DialogTitle>
-                <DialogDescription>This action cannot be undone.</DialogDescription>
-              </DialogHeader>
-            </DialogHeaderContainer>
-            <DialogContentContainer>
+            <DialogContentContainer className="flex flex-col gap-2">
               <Alert variant="destructive">
-                <AlertTitle>Proceed with caution!</AlertTitle>
+                <AlertTitle>Warning</AlertTitle>
                 <AlertDescription>
-                  This action cannot be undone. It will remove the invoice permanently from the database. You will not
-                  be able to recover it.
+                  This action is irreversible. It will permanently remove this invoice from your account.
                 </AlertDescription>
               </Alert>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>Invoice ID</Label>
-                <Input disabled value={invoiceId} />
+                <Input value={invoiceId} disabled />
               </div>
             </DialogContentContainer>
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="secondary" size="xs">
+                  Cancel
+                </Button>
               </DialogClose>
-              <FormButton variant="destructive" type="submit">
+              <FormButton disabled={deleteServerInvoiceMutation.isPending} variant="destructive" size="xs">
                 Delete
               </FormButton>
             </DialogFooter>

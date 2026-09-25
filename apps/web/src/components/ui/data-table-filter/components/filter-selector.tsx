@@ -106,7 +106,7 @@ function __FilterSelector<TData>({ filters, columns, actions, strategy, locale =
       <PopoverContent
         align="start"
         side="bottom"
-        className="w-fit origin-(--radix-popover-content-transform-origin) p-0"
+        className="origin-(--radix-popover-content-transform-origin) w-fit p-0"
       >
         {content}
       </PopoverContent>
@@ -225,7 +225,7 @@ function __QuickSearchFilters<TData>({ search, filters, columns, actions }: Quic
                   <div className="group flex items-center gap-1.5">
                     <Checkbox
                       checked={checked}
-                      className="dark:border-ring mr-1 opacity-0 group-data-[selected=true]:opacity-100 data-[state=checked]:opacity-100"
+                      className="dark:border-ring mr-1 opacity-0 data-[state=checked]:opacity-100 group-data-[selected=true]:opacity-100"
                     />
                     <div className="flex w-4 items-center justify-center">
                       {v.icon && (isValidElement(v.icon) ? v.icon : <v.icon className="text-primary size-4" />)}
@@ -238,7 +238,7 @@ function __QuickSearchFilters<TData>({ search, filters, columns, actions }: Quic
                         <sup
                           className={cn(
                             !optionsCount && "hidden",
-                            "text-muted-foreground ml-0.5 tracking-tight tabular-nums",
+                            "text-muted-foreground ml-0.5 tabular-nums tracking-tight",
                             count === 0 && "slashed-zero",
                           )}
                         >

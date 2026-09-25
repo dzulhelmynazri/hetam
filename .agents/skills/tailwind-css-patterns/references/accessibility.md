@@ -4,10 +4,10 @@
 
 ```html
 <!-- Custom focus styles that meet WCAG AA -->
-<button class="focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none">Accessible Button</button>
+<button class="focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2">Accessible Button</button>
 
 <!-- Skip links for keyboard navigation -->
-<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4">
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4">
   Skip to main content
 </a>
 ```

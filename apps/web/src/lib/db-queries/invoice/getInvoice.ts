@@ -1,4 +1,4 @@
-import { db, schema } from "@invoicely/db";
+import { db, schema } from "@hetam/db";
 import { and, eq } from "drizzle-orm";
 
 /**

@@ -127,11 +127,11 @@ Usage in a card component:
 
 ```html
 <div class="@container w-full">
-  <div class="flex flex-col gap-4 @[400px]:flex-row">
-    <img class="h-32 w-full object-cover @[400px]:w-32" src="image.jpg" />
+  <div class="@[400px]:flex-row flex flex-col gap-4">
+    <img class="@[400px]:w-32 h-32 w-full object-cover" src="image.jpg" />
     <div>
-      <h3 class="text-base font-bold @[400px]:text-lg">Title</h3>
-      <p class="text-sm @[400px]:text-base">Description</p>
+      <h3 class="@[400px]:text-lg text-base font-bold">Title</h3>
+      <p class="@[400px]:text-base text-sm">Description</p>
     </div>
   </div>
 </div>

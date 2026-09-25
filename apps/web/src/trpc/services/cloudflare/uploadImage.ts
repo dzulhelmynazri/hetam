@@ -28,11 +28,6 @@ export const uploadImageFile = authorizedProcedure
 
     // Upload Image Effect
     const uploadImageEffect = Effect.gen(function* () {
-      // Check if the user is allowed to save data
-      if (!ctx.auth.user.allowedSavingData) {
-        return yield* new ForbiddenError({ message: ERROR_MESSAGES.NOT_ALLOWED_TO_SAVE_DATA });
-      }
-
       // Getting the number of images the user has uploaded
       const userImagesCount = yield* Effect.tryPromise({
         try: () => getUserImagesCount(ctx.s3, userId),

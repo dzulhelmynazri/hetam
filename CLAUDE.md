@@ -7,43 +7,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Run from the repo root (Turbo orchestrates the workspaces):
 
 ```bash
-yarn dev            # Start all apps in dev (Next.js with --turbopack)
-yarn build          # Production build of all apps
-yarn start          # Start production servers
-yarn lint           # Lint all packages
-yarn lint:fix       # eslint . --fix
-yarn format         # prettier --write across the repo
-yarn check-types    # Type-check via turbo
+bun dev             # Start all apps in dev (Next.js with --turbopack)
+bun run build       # Production build of all apps
+bun run start       # Start production servers
+bun run lint        # Lint all packages
+bun run lint:fix    # eslint . --fix
+bun run format      # prettier --write across the repo
+bun run check-types # Type-check via turbo
 
 # Database (Drizzle + Neon Postgres) — all read DATABASE_URL via dotenv-cli
-yarn db:generate    # Generate SQL migrations from schema changes
-yarn db:migrate     # Apply migrations
-yarn db:push        # Push schema directly (dev only)
-yarn db:studio      # Open Drizzle Studio
+bun run db:generate # Generate SQL migrations from schema changes
+bun run db:migrate  # Apply migrations
+bun run db:push     # Push schema directly (dev only)
+bun run db:studio   # Open Drizzle Studio
 ```
 
-There is **no test runner** configured in this repo — do not assume `yarn test` exists.
+There is **no test runner** configured in this repo — do not assume `bun test` exists.
 
 ### First-time setup gotcha
 
-Environment variables live in a single root `.env`. Run `yarn sys-link` to symlink it into each app under `apps/*` (see `env-links.sh`). The dev server will fail env validation without this step. Env is validated by Zod via `@t3-oss/env-nextjs` in `packages/utilities/src/env`; add new vars there **and** to `turbo.json`'s `build.env` list if they're needed at build time.
+Environment variables live in a single root `.env`. Run `bun run sys-link` to symlink it into each app under `apps/*` (see `env-links.sh`). The dev server will fail env validation without this step. Env is validated by Zod via `@t3-oss/env-nextjs` in `packages/utilities/src/env`; add new vars there **and** to `turbo.json`'s `build.env` list if they're needed at build time.
 
 ## Architecture
 
-Yarn 4 workspaces + Turborepo monorepo:
+Bun workspaces + Turborepo monorepo:
 
 - `apps/web` — the Next.js 15 App Router application (the only app)
-- `packages/db` — Drizzle ORM schema, migrations, and the Neon Postgres client (`@invoicely/db`)
-- `packages/utilities` — shared env config (`@invoicely/utilities`)
+- `packages/db` — Drizzle ORM schema, migrations, and the Neon Postgres client (`@hetam/db`)
+- `packages/utilities` — shared env config (`@hetam/utilities`)
 - `packages/eslint-config`, `packages/typescript-config` — shared config
 
 Path aliases in `apps/web`: `@/*` → `src/*`, `@/icons` → `src/assets/icons`.
 
-### Local-first invoices (the core domain model)
+### Server-first invoices (the core domain model)
 
-Invoices are created and stored **client-side in IndexedDB** by default — see `global/indexdb`, `lib/indexdb-queries`, and `constants/indexed-db.ts` (uses the `idb` library). The `invoiceTypeEnum` (`local` | `server`) distinguishes these.
-
-Authenticated users can **migrate** local invoices into Postgres via the `invoice.migrateToDb` tRPC mutation. This is gated by the `allowedSavingData` boolean on the user (defaults to `false`, declared as a Better Auth `additionalField` in `lib/auth.ts`). Any write service checks `ctx.auth.user.allowedSavingData` before persisting.
+Invoices are stored in **Neon PostgreSQL via Drizzle ORM** on the server. Authenticated users save, edit, list, and delete their invoices directly through tRPC mutations and queries. Default details and cloud assets (logos and signatures in Cloudflare R2) are likewise persisted to the server.
 
 ### tRPC layer (note: "services", not "routers")
 
@@ -84,7 +82,7 @@ Uses `fumadocs-ui` + `content-collections` (MDX). Content sources are in `apps/w
 - Directories use `lowercase-with-dashes`. Use the `function` keyword for pure functions; prefer interfaces over types; avoid enums (use maps / `pgEnum`).
 - Favor React Server Components; minimize `use client`, `useEffect`, `setState`.
 - Commit/PR title format: `type(scope): description` (`feat:`, `fix:`, `chore:`). Branch names: `profilename/featurename`.
-- The Husky pre-commit hook runs `turbo run lint -- --fix` then `yarn format`.
+- The Husky pre-commit hook runs `turbo run lint -- --fix` then `bun run format`.
 
 ## Important constraints
 

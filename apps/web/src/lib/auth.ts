@@ -1,7 +1,7 @@
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { env } from "@invoicely/utilities";
 import { betterAuth } from "better-auth";
-import { db } from "@invoicely/db";
+import { env } from "@hetam/utilities";
+import { db } from "@hetam/db";
 
 export const serverAuth = betterAuth({
   database: drizzleAdapter(db, {

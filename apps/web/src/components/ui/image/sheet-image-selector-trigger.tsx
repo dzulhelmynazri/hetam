@@ -28,7 +28,7 @@ const SheetImageSelectorTrigger = ({
         {/* Drop area */}
         <div
           role="button"
-          className="border-input hover:bg-accent/50 data-[dragging=true]:bg-accent/50 has-[input:focus]:border-ring has-[input:focus]:ring-ring/50 s relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-md border border-dashed p-4 transition-colors has-disabled:pointer-events-none has-disabled:opacity-50 has-[img]:border-none has-[input:focus]:ring-[3px] sm:min-h-52"
+          className="border-input hover:bg-accent/50 data-[dragging=true]:bg-accent/50 has-[input:focus]:border-ring has-[input:focus]:ring-ring/50 s has-disabled:pointer-events-none has-disabled:opacity-50 relative flex aspect-square flex-col items-center justify-center overflow-hidden rounded-md border border-dashed p-4 transition-colors has-[img]:border-none has-[input:focus]:ring-[3px] sm:min-h-52"
         >
           {previewUrl ? (
             <div className="absolute inset-0">
@@ -56,9 +56,9 @@ const SheetImageSelectorTrigger = ({
           )}
         </div>
         {previewUrl && (
-          <div className="absolute top-4 right-4">
+          <div className="absolute right-4 top-4">
             <div
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-5 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-5 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white outline-none transition-[color,box-shadow] hover:bg-black/80 focus-visible:ring-[3px]"
               onClick={(e) => {
                 e.stopPropagation();
                 onRemove();
